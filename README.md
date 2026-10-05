@@ -2,7 +2,7 @@
 
 Zed language extension for [Vyper](https://docs.vyperlang.org/en/latest/). `.vy` files get syntax highlighting, bracket matching, indentation, an outline, snippets, and the [vyper-lsp](https://github.com/vyperlang/vyper-lsp) language server when that binary is on `PATH`.
 
-Parsing uses a copy of [Olyno/tree-sitter-vyper](https://github.com/Olyno/tree-sitter-vyper) in `tree-sitter-vyper/`. That copy parses `for i: uint256 in range(...)`, which the upstream grammar currently rejects.
+Parsing uses [tree-sitter-vyper](https://github.com/Olyno/tree-sitter-vyper) by [Olyno](https://github.com/Olyno), included as a git submodule. The grammar is MIT-licensed and forked from [tree-sitter-python](https://github.com/tree-sitter/tree-sitter-python) by Max Brunsfeld and Amaan Qureshi.
 
 ## Install in Zed
 
@@ -20,4 +20,4 @@ pipx install git+https://github.com/vyperlang/vyper-lsp.git
 
 ## Grammar limits
 
-The grammar is a Python grammar adapted for Vyper. It covers functions, decorators, imports, events, structs, interfaces, `log`, `extcall`, `staticcall`, and typed `for` loops. Enum variants that carry a type, such as `ERR: uint256`, still produce a parse error.
+The pinned grammar covers functions, decorators, imports, events, structs, interfaces, `log`, `extcall`, and `staticcall`. Typed `for` loops (`for i: uint256 in range(...)`) and enum variants that carry a type (`ERR: uint256`) still fail to parse.

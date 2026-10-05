@@ -6,10 +6,10 @@ authors = ["Rafael Abuawad <rafael.abuawad@live.com>"]
 description = "Vyper syntax highlighting, outline, and language server support."
 snippets = ["./snippets/vyper.json"]
 
+# Grammar by Olyno: https://github.com/Olyno/tree-sitter-vyper (MIT).
 [grammars.vyper]
-repository = "https://github.com/rafael-abuawad/vyper-lsp"
-path = "tree-sitter-vyper"
-rev = "3a656bd51612eb798870e23001ea280bde04c696"
+repository = "https://github.com/Olyno/tree-sitter-vyper"
+rev = "97d51f8b689b6a2dc62ab31b4d0d34797aec19a6"
 
 [language_servers.vyper-lsp]
 name = "Vyper LSP"

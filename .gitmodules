@@ -1,0 +1,3 @@
+[submodule "tree-sitter-vyper"]
+	path = tree-sitter-vyper
+	url = https://github.com/Olyno/tree-sitter-vyper.git
