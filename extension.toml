@@ -9,7 +9,7 @@ snippets = ["./snippets/vyper.json"]
 [grammars.vyper]
 repository = "https://github.com/rafael-abuawad/vyper-lsp"
 path = "tree-sitter-vyper"
-rev = "PENDING"
+rev = "3a656bd51612eb798870e23001ea280bde04c696"
 
 [language_servers.vyper-lsp]
 name = "Vyper LSP"
