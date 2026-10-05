@@ -20,4 +20,4 @@ pipx install git+https://github.com/vyperlang/vyper-lsp.git
 
 ## Grammar limits
 
-The pinned grammar covers functions, decorators, imports, events, structs, interfaces, `log`, `extcall`, `staticcall`, and typed `for` loops. Enum variants that carry a type (`ERR: uint256`) still fail to parse.
+The pinned grammar covers functions, decorators, imports, events, structs, interfaces, `enum`, `flag`, custom `error`, `log`, `extcall`, `staticcall`, typed `for` loops, `initializes: mod[dep := dep]`, and hex bytes literals (`x"..."`). `enum` and `flag` members are bare names.

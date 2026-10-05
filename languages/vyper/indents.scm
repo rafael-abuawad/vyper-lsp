@@ -27,3 +27,7 @@
 (interface_definition) @start.interface
 
 (enum_definition) @start.enum
+
+(flag_definition) @start.flag
+
+(error_definition) @start.error

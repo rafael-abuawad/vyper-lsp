@@ -22,6 +22,14 @@
   "enum" @context
   name: (identifier) @name) @item
 
+(flag_definition
+  "flag" @context
+  name: (identifier) @name) @item
+
+(error_definition
+  "error" @context
+  name: (identifier) @name) @item
+
 (module
   (assignment
     left: (identifier) @name)) @item

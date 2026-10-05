@@ -14,3 +14,9 @@
 
 (enum_definition
   members: (_) @class.inside) @class.around
+
+(flag_definition
+  members: (_) @class.inside) @class.around
+
+(error_definition
+  body: (_) @class.inside) @class.around

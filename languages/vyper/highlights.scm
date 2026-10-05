@@ -43,6 +43,8 @@
   "event"
   "struct"
   "enum"
+  "flag"
+  "error"
   "interface"
   "log"
   "extcall"
@@ -77,6 +79,7 @@
   "<<="
   "<="
   "="
+  ":="
   "=="
   ">"
   ">="
@@ -160,6 +163,12 @@
   name: (identifier) @type)
 
 (enum_definition
+  name: (identifier) @type)
+
+(flag_definition
+  name: (identifier) @type)
+
+(error_definition
   name: (identifier) @type)
 
 (interface_definition
