@@ -1,0 +1,19 @@
+id = "vyper"
+name = "Vyper"
+version = "0.1.0"
+schema_version = 1
+authors = ["Rafael Abuawad <rafael.abuawad@live.com>"]
+description = "Vyper syntax highlighting, outline, and language server support."
+snippets = ["./snippets/vyper.json"]
+
+[grammars.vyper]
+repository = "https://github.com/rafael-abuawad/vyper-lsp"
+path = "tree-sitter-vyper"
+rev = "PENDING"
+
+[language_servers.vyper-lsp]
+name = "Vyper LSP"
+languages = ["Vyper"]
+
+[language_servers.vyper-lsp.language_ids]
+Vyper = "vyper"

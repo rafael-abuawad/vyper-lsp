@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - bindings/**
+  pull_request:
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - bindings/**
+
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test parser
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
+        with:
+          tree-sitter-ref: 'v0.25.9'
+      - name: Run tests
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          test-rust: true
+          test-node: true
+      - name: Set up Vyper examples
+        run: |-
+          git clone https://github.com/vyperlang/vyper examples/vyper --single-branch --depth=1 --filter=blob:none
+      - name: Parse Vyper examples
+        uses: tree-sitter/parse-action@v4
+        with:
+          files: |
+            examples/vyper/examples/**/*.vy
+            examples/vyper/tests/parser/syntax/**/*.vy

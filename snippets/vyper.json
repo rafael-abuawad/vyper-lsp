@@ -1,0 +1,77 @@
+{
+  "External function": {
+    "prefix": "external",
+    "description": "External function",
+    "body": [
+      "@external",
+      "def ${1:name}(${2:}) -> ${3:uint256}:",
+      "    ${0:pass}"
+    ]
+  },
+  "View function": {
+    "prefix": "view",
+    "description": "External view function",
+    "body": [
+      "@view",
+      "@external",
+      "def ${1:name}(${2:}) -> ${3:uint256}:",
+      "    return ${0:0}"
+    ]
+  },
+  "Internal function": {
+    "prefix": "internal",
+    "description": "Internal function",
+    "body": [
+      "@internal",
+      "def ${1:name}(${2:}) -> ${3:uint256}:",
+      "    ${0:pass}"
+    ]
+  },
+  "Event": {
+    "prefix": "event",
+    "description": "Event definition",
+    "body": [
+      "event ${1:Name}:",
+      "    ${2:field}: ${0:address}"
+    ]
+  },
+  "Struct": {
+    "prefix": "struct",
+    "description": "Struct definition",
+    "body": [
+      "struct ${1:Name}:",
+      "    ${2:field}: ${0:uint256}"
+    ]
+  },
+  "Interface": {
+    "prefix": "interface",
+    "description": "Interface definition",
+    "body": [
+      "interface ${1:Name}:",
+      "    def ${2:name}(${3:}) -> ${4:uint256}: ${0:view}"
+    ]
+  },
+  "Enum": {
+    "prefix": "enum",
+    "description": "Enum definition",
+    "body": [
+      "enum ${1:Name}:",
+      "    ${0:VARIANT}"
+    ]
+  },
+  "Public state": {
+    "prefix": "public",
+    "description": "Public state variable",
+    "body": "${1:name}: public(${0:uint256})"
+  },
+  "Immutable": {
+    "prefix": "immutable",
+    "description": "Immutable state variable",
+    "body": "${1:name}: immutable(${0:address})"
+  },
+  "Constant": {
+    "prefix": "constant",
+    "description": "Constant state variable",
+    "body": "${1:NAME}: constant(${2:uint256}) = ${0:0}"
+  }
+}

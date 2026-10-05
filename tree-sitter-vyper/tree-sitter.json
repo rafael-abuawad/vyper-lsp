@@ -1,0 +1,38 @@
+{
+  "grammars": [
+    {
+      "name": "vyper",
+      "camelcase": "Vyper",
+      "scope": "source.vyper",
+      "path": ".",
+      "file-types": [
+        "vy"
+      ],
+      "highlights": "queries/highlights.scm",
+      "tags": "queries/tags.scm",
+      "injection-regex": "vy"
+    }
+  ],
+  "metadata": {
+    "version": "0.25.0",
+    "license": "MIT",
+    "description": "Vyper grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Max Brunsfeld",
+        "email": "maxbrunsfeld@gmail.com"
+      },
+      {
+        "name": "Amaan Qureshi",
+        "email": "amaanq12@gmail.com"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/Olyno/tree-sitter-vyper"
+    }
+  },
+  "bindings": {
+    "node": true,
+    "rust": true
+  }
+}

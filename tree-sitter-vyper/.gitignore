@@ -1,0 +1,26 @@
+# Rust artifacts
+target/
+
+# Node artifacts
+build/
+node_modules/
+
+# WASM (built on demand)
+*.wasm
+
+# Grammar artifacts
+*.obj
+*.o
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.pc
+*.exp
+*.lib
+
+# Archives
+*.tar.gz
+*.tgz
+*.zip
