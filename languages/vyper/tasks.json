@@ -1,0 +1,34 @@
+[
+  {
+    "label": "Vyper: Compile",
+    "command": "sh",
+    "args": [
+      "-c",
+      "vyper -p \"$ZED_WORKTREE_ROOT\" -f annotated_ast \"$ZED_FILE\" >/dev/null && printf 'Compiled %s\\n' \"$ZED_FILENAME\""
+    ],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "tags": ["vyper-compile"],
+    "save": "current"
+  },
+  {
+    "label": "Vyper: ABI",
+    "command": "vyper",
+    "args": ["-p", "$ZED_WORKTREE_ROOT", "-f", "abi", "$ZED_FILE"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "current"
+  },
+  {
+    "label": "Vyper: Bytecode",
+    "command": "vyper",
+    "args": ["-p", "$ZED_WORKTREE_ROOT", "-f", "bytecode", "$ZED_FILE"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "current"
+  },
+  {
+    "label": "Vyper: Interface",
+    "command": "vyper",
+    "args": ["-p", "$ZED_WORKTREE_ROOT", "-f", "interface", "$ZED_FILE"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "current"
+  }
+]

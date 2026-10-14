@@ -33,3 +33,11 @@
 (module
   (assignment
     left: (identifier) @name)) @item
+
+(import_statement
+  "import" @context
+  name: (_) @name) @item
+
+(import_from_statement
+  "from" @context
+  module_name: (_) @name) @item

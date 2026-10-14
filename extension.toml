@@ -1,9 +1,9 @@
 id = "vyper"
 name = "Vyper"
-version = "0.1.0"
+version = "0.3.0"
 schema_version = 1
 authors = ["Rafael Abuawad <rafael.abuawad@live.com>"]
-description = "Vyper syntax highlighting, outline, and language server support."
+description = "Vyper highlighting, snippets, compiler diagnostics, hover, and automatic vyper-lsp install."
 snippets = ["./snippets/vyper.json"]
 
 # Grammar by Olyno (MIT): https://github.com/Olyno/tree-sitter-vyper

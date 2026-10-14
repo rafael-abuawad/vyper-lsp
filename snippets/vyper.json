@@ -1,10 +1,15 @@
 {
+  "Pragma": {
+    "prefix": "pragma",
+    "description": "Compiler version pragma",
+    "body": "#pragma version ${0:^0.4.0}"
+  },
   "External function": {
     "prefix": "external",
     "description": "External function",
     "body": [
       "@external",
-      "def ${1:name}(${2:}) -> ${3:uint256}:",
+      "def ${1:name}(${2:arg}: ${3:uint256}) -> ${4:uint256}:",
       "    ${0:pass}"
     ]
   },
@@ -14,8 +19,38 @@
     "body": [
       "@view",
       "@external",
-      "def ${1:name}(${2:}) -> ${3:uint256}:",
+      "def ${1:name}(${2:arg}: ${3:uint256}) -> ${4:uint256}:",
       "    return ${0:0}"
+    ]
+  },
+  "Pure function": {
+    "prefix": "pure",
+    "description": "External pure function",
+    "body": [
+      "@pure",
+      "@external",
+      "def ${1:name}(${2:arg}: ${3:uint256}) -> ${4:uint256}:",
+      "    return ${0:0}"
+    ]
+  },
+  "Payable function": {
+    "prefix": "payable",
+    "description": "External payable function",
+    "body": [
+      "@payable",
+      "@external",
+      "def ${1:name}(${2:arg}: ${3:uint256}):",
+      "    ${0:pass}"
+    ]
+  },
+  "Nonreentrant function": {
+    "prefix": "nonreentrant",
+    "description": "External nonreentrant function",
+    "body": [
+      "@nonreentrant",
+      "@external",
+      "def ${1:name}(${2:arg}: ${3:uint256}):",
+      "    ${0:pass}"
     ]
   },
   "Internal function": {
@@ -23,7 +58,53 @@
     "description": "Internal function",
     "body": [
       "@internal",
-      "def ${1:name}(${2:}) -> ${3:uint256}:",
+      "def ${1:name}(${2:arg}: ${3:uint256}) -> ${4:uint256}:",
+      "    ${0:pass}"
+    ]
+  },
+  "Internal view function": {
+    "prefix": "internalview",
+    "description": "Internal view function",
+    "body": [
+      "@view",
+      "@internal",
+      "def ${1:name}(${2:arg}: ${3:uint256}) -> ${4:uint256}:",
+      "    return ${0:0}"
+    ]
+  },
+  "Constructor": {
+    "prefix": "constructor",
+    "description": "Deploy constructor",
+    "body": [
+      "@deploy",
+      "def __init__(${1:arg}: ${2:address}):",
+      "    ${0:pass}"
+    ]
+  },
+  "Constructor init": {
+    "prefix": "__init__",
+    "description": "Deploy constructor",
+    "body": [
+      "@deploy",
+      "def __init__(${1:arg}: ${2:address}):",
+      "    ${0:pass}"
+    ]
+  },
+  "Default function": {
+    "prefix": "fallback",
+    "description": "Default function",
+    "body": [
+      "@external",
+      "def __default__():",
+      "    ${0:pass}"
+    ]
+  },
+  "Default function name": {
+    "prefix": "__default__",
+    "description": "Default function",
+    "body": [
+      "@external",
+      "def __default__():",
       "    ${0:pass}"
     ]
   },
@@ -32,7 +113,8 @@
     "description": "Event definition",
     "body": [
       "event ${1:Name}:",
-      "    ${2:field}: ${0:address}"
+      "    ${2:sender}: indexed(address)",
+      "    ${3:amount}: ${0:uint256}"
     ]
   },
   "Struct": {
@@ -48,7 +130,7 @@
     "description": "Interface definition",
     "body": [
       "interface ${1:Name}:",
-      "    def ${2:name}(${3:}) -> ${4:uint256}: ${0:view}"
+      "    def ${2:name}(${3:arg}: ${4:uint256}) -> ${5:uint256}: view"
     ]
   },
   "Enum": {
@@ -58,6 +140,52 @@
       "enum ${1:Name}:",
       "    ${0:VARIANT}"
     ]
+  },
+  "Flag": {
+    "prefix": "flag",
+    "description": "Flag definition",
+    "body": [
+      "flag ${1:Roles}:",
+      "    ${0:ADMIN}"
+    ]
+  },
+  "Error": {
+    "prefix": "error",
+    "description": "Custom error",
+    "body": [
+      "error ${1:Name}:",
+      "    ${2:field}: ${0:address}"
+    ]
+  },
+  "Implements": {
+    "prefix": "implements",
+    "description": "Interface implementation",
+    "body": "implements: ${0:IName}"
+  },
+  "Import from": {
+    "prefix": "from",
+    "description": "Import a name from a module",
+    "body": "from ${1:module} import ${0:Name}"
+  },
+  "Import module": {
+    "prefix": "import",
+    "description": "Import a module",
+    "body": "import ${1:module} as ${0:alias}"
+  },
+  "Initializes": {
+    "prefix": "initializes",
+    "description": "Initialize an imported module",
+    "body": "initializes: ${0:module}"
+  },
+  "Exports": {
+    "prefix": "exports",
+    "description": "Re-export a module interface",
+    "body": "exports: ${1:module}.__interface__"
+  },
+  "Uses": {
+    "prefix": "uses",
+    "description": "Use an imported module",
+    "body": "uses: ${0:module}"
   },
   "Public state": {
     "prefix": "public",
@@ -71,7 +199,188 @@
   },
   "Constant": {
     "prefix": "constant",
-    "description": "Constant state variable",
+    "description": "Constant",
     "body": "${1:NAME}: constant(${2:uint256}) = ${0:0}"
+  },
+  "Transient": {
+    "prefix": "transient",
+    "description": "Transient state variable",
+    "body": "${1:name}: transient(${0:uint256})"
+  },
+  "HashMap": {
+    "prefix": "HashMap",
+    "description": "HashMap type",
+    "body": "HashMap[${1:address}, ${0:uint256}]"
+  },
+  "DynArray": {
+    "prefix": "DynArray",
+    "description": "DynArray type",
+    "body": "DynArray[${1:uint256}, ${0:10}]"
+  },
+  "State variable": {
+    "prefix": "var",
+    "description": "State variable",
+    "body": "${1:name}: ${0:uint256}"
+  },
+  "NatSpec": {
+    "prefix": "natspec",
+    "description": "Documentation comment",
+    "body": [
+      "\"\"\"",
+      "@notice ${1:description}",
+      "@dev ${2:notes}",
+      "@param ${3:arg} ${4:description}",
+      "@return ${0:description}",
+      "\"\"\""
+    ]
+  },
+  "If": {
+    "prefix": "if",
+    "description": "If statement",
+    "body": [
+      "if ${1:condition}:",
+      "    ${0:pass}"
+    ]
+  },
+  "If else": {
+    "prefix": "ifelse",
+    "description": "If else statement",
+    "body": [
+      "if ${1:condition}:",
+      "    ${2:pass}",
+      "else:",
+      "    ${0:pass}"
+    ]
+  },
+  "For array": {
+    "prefix": "for",
+    "description": "For loop over an array",
+    "body": [
+      "for ${1:item}: ${2:uint256} in ${3:items}:",
+      "    ${0:pass}"
+    ]
+  },
+  "For range": {
+    "prefix": "forrange",
+    "description": "For loop over a range",
+    "body": [
+      "for ${1:i}: uint256 in range(${2:bound}, bound=${2:bound}):",
+      "    ${0:pass}"
+    ]
+  },
+  "Log": {
+    "prefix": "log",
+    "description": "Emit an event",
+    "body": "log ${1:Event}(${2:sender}, ${0:amount})"
+  },
+  "Assert": {
+    "prefix": "assert",
+    "description": "Assert a condition",
+    "body": "assert ${1:condition}, \"${0:message}\""
+  },
+  "Raw call": {
+    "prefix": "raw_call",
+    "description": "Low-level call",
+    "body": "raw_call(${1:to}, ${2:data}, max_outsize=${0:32})"
+  },
+  "Delegate call": {
+    "prefix": "delegatecall",
+    "description": "Low-level delegatecall",
+    "body": "raw_call(${1:to}, ${2:data}, max_outsize=${0:32}, is_delegate_call=True)"
+  },
+  "Static raw call": {
+    "prefix": "staticrawcall",
+    "description": "Low-level staticcall",
+    "body": "raw_call(${1:to}, ${2:data}, max_outsize=${0:32}, is_static_call=True)"
+  },
+  "Send": {
+    "prefix": "send",
+    "description": "Send wei",
+    "body": "send(${1:to}, ${0:value})"
+  },
+  "Raw log": {
+    "prefix": "raw_log",
+    "description": "Emit a raw log",
+    "body": "raw_log([${1:topic}], ${0:data})"
+  },
+  "Raw revert": {
+    "prefix": "raw_revert",
+    "description": "Revert with raw data",
+    "body": "raw_revert(${0:data})"
+  },
+  "Create from blueprint": {
+    "prefix": "create_from_blueprint",
+    "description": "Deploy from a blueprint",
+    "body": "create_from_blueprint(${0:target})"
+  },
+  "Create copy of": {
+    "prefix": "create_copy_of",
+    "description": "Deploy a copy of runtime code",
+    "body": "create_copy_of(${0:target})"
+  },
+  "Create minimal proxy": {
+    "prefix": "create_minimal_proxy_to",
+    "description": "Deploy an EIP-1167 proxy",
+    "body": "create_minimal_proxy_to(${0:target})"
+  },
+  "Keccak256": {
+    "prefix": "keccak256",
+    "description": "Keccak-256 hash",
+    "body": "keccak256(${0:value})"
+  },
+  "Sha256": {
+    "prefix": "sha256",
+    "description": "SHA-256 hash",
+    "body": "sha256(${0:value})"
+  },
+  "Ecrecover": {
+    "prefix": "ecrecover",
+    "description": "Recover a signer",
+    "body": "ecrecover(${1:hash}, ${2:v}, ${3:r}, ${0:s})"
+  },
+  "Convert": {
+    "prefix": "convert",
+    "description": "Convert a value",
+    "body": "convert(${1:value}, ${0:uint256})"
+  },
+  "Slice": {
+    "prefix": "slice",
+    "description": "Slice bytes",
+    "body": "slice(${1:value}, ${2:start}, ${0:length})"
+  },
+  "Extract32": {
+    "prefix": "extract32",
+    "description": "Read 32 bytes",
+    "body": "extract32(${1:value}, ${0:start})"
+  },
+  "Concat": {
+    "prefix": "concat",
+    "description": "Concatenate bytes or strings",
+    "body": "concat(${1:a}, ${0:b})"
+  },
+  "ABI encode": {
+    "prefix": "abi_encode",
+    "description": "ABI-encode values",
+    "body": "abi_encode(${0:value})"
+  },
+  "ABI decode": {
+    "prefix": "abi_decode",
+    "description": "ABI-decode bytes",
+    "body": "abi_decode(${1:data}, ${0:uint256})"
+  },
+  "Method id": {
+    "prefix": "method_id",
+    "description": "Function selector",
+    "body": "method_id(\"${1:transfer(address,uint256)}\", output_type=${0:bytes4})"
+  },
+  "As wei value": {
+    "prefix": "as_wei_value",
+    "description": "Convert a denomination to wei",
+    "body": "as_wei_value(${1:1}, \"${0:ether}\")"
+  },
+  "Empty": {
+    "prefix": "empty",
+    "description": "Zero value of a type",
+    "body": "empty(${0:address})"
   }
 }

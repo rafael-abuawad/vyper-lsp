@@ -136,7 +136,7 @@
 
 ((function_definition
   name: (identifier) @constructor)
-  (#eq? @constructor "__init__"))
+  (#any-of? @constructor "__init__" "__default__"))
 
 (call
   function: (identifier) @function)
@@ -193,3 +193,38 @@
   (assignment
     left: (identifier) @keyword))
   (#eq? @keyword "implements"))
+
+; Auditor highlights. string.special is preferred; function or keyword is the fallback.
+((call
+  function: (identifier) @function @string.special)
+  (#any-of? @string.special
+    "send"
+    "raw_call"
+    "raw_log"
+    "raw_revert"
+    "raw_create"
+    "selfdestruct"
+    "create_from_blueprint"
+    "create_copy_of"
+    "create_minimal_proxy_to"
+    "create_forwarder_to"
+    "unsafe_add"
+    "unsafe_sub"
+    "unsafe_mul"
+    "unsafe_div"))
+
+("extcall" @keyword @string.special)
+("staticcall" @keyword @string.special)
+
+((decorator
+  (identifier) @attribute @string.special)
+  (#any-of? @string.special "external" "payable" "deploy"))
+
+(attribute
+  object: (identifier) @_env
+  attribute: (identifier) @property @variable.special
+  (#any-of? @_env "msg" "block" "tx" "chain"))
+
+((attribute
+  attribute: (identifier) @property @string.special)
+  (#any-of? @string.special "balance" "codehash" "is_contract"))

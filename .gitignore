@@ -2,3 +2,5 @@
 /extension.wasm
 /grammars
 /tree-sitter-vyper/target
+__pycache__/
+*.pyc
