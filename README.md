@@ -39,7 +39,7 @@ Point either server at a specific binary, or change the compiler invocation the 
 }
 ```
 
-`settings.command` is the compiler command for the fallback server. It can be any argv prefix, including a search path for imported modules: `vyper -p /path/to/project`. The fallback adds `-p` for the project and the file's directory when the command is plain `vyper`.
+`settings.command` is the compiler command for the fallback server. It can be any argv prefix, including a search path for imported modules: `vyper -p /path/to/project`. The fallback adds `-p` for the project and the file's directory when the command is plain `vyper`. A Moccasin project (`moccasin.toml` next to the contract or in a parent directory) also gets `lib/github` and `lib/pypi` when those directories exist, along with any `-p` paths in `.vscode/settings.json` under `vyper.command`.
 
 ## Compile tasks
 

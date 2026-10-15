@@ -412,8 +412,78 @@ def compile_argv(source: Path, root: Path | None, command: list[str], version: s
         parent = source.parent
         if root is None or parent != root:
             argv.extend(["-p", str(parent)])
+    for path in moccasin_search_paths(source):
+        if not search_path_listed(argv, path):
+            argv.extend(["-p", path])
     argv.extend(["-f", output_format(version), str(source)])
     return argv
+
+
+def moccasin_root(source: Path) -> Path | None:
+    for directory in (source.parent, *source.parent.parents):
+        if (directory / "moccasin.toml").is_file():
+            return directory
+    return None
+
+
+def moccasin_search_paths(source: Path) -> list[str]:
+    """Moccasin installs Vyper dependencies under lib/github and lib/pypi."""
+    root = moccasin_root(source)
+    if root is None:
+        return []
+
+    paths: list[str] = []
+    for relative in ("lib/github", "lib/pypi"):
+        candidate = root / relative
+        if candidate.is_dir():
+            paths.append(str(candidate))
+    paths.extend(vscode_vyper_paths(root))
+    return paths
+
+
+def vscode_vyper_paths(root: Path) -> list[str]:
+    # moccasin writes the compiler search path into the VS Code setting it generates.
+    settings_path = root / ".vscode" / "settings.json"
+    if not settings_path.is_file():
+        return []
+    try:
+        settings = json.loads(settings_path.read_text())
+    except (OSError, json.JSONDecodeError) as error:
+        log(f"could not read {settings_path}: {error}")
+        return []
+
+    command = settings.get("vyper.command") if isinstance(settings, dict) else None
+    if not isinstance(command, str):
+        return []
+
+    args = shlex.split(command)
+    paths: list[str] = []
+    index = 0
+    while index < len(args):
+        if args[index] in {"-p", "--path"} and index + 1 < len(args):
+            raw = Path(args[index + 1])
+            candidate = raw if raw.is_absolute() else root / raw
+            if candidate.is_dir():
+                paths.append(str(candidate))
+            else:
+                log(f"skipping missing Vyper search path {candidate}")
+            index += 2
+            continue
+        index += 1
+    return paths
+
+
+def search_path_listed(argv: list[str], path: str) -> bool:
+    target = str(Path(path).resolve())
+    index = 0
+    while index < len(argv):
+        if argv[index] in {"-p", "--path"} and index + 1 < len(argv):
+            if str(Path(argv[index + 1]).resolve()) == target:
+                return True
+            index += 2
+            continue
+        index += 1
+    return False
 
 
 def parse_compiler_failure(stderr: str, return_code: int, source: str) -> list[dict]:

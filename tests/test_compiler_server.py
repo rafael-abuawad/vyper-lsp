@@ -50,6 +50,39 @@ class CompilerOutputTest(unittest.TestCase):
             path.write_text("def name() -> String[32]: view\n")
             self.assertEqual(server.compile_file(path, None, path.read_text(), ["vyper"]), [])
 
+    def test_moccasin_project_adds_dependency_paths(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "moccasin.toml").write_text("[project]\nsrc = \"src\"\n")
+            pypi = root / "lib" / "pypi"
+            pypi.mkdir(parents=True)
+            source = root / "src" / "stable.vy"
+            source.parent.mkdir()
+            source.write_text("# pragma version ~=0.4.3\n")
+            argv = server.compile_argv(source, root, ["vyper"], "0.4.3")
+        self.assertIn(str(pypi), argv)
+        self.assertNotIn(str(root / "lib" / "github"), argv)
+
+    def test_moccasin_paths_are_not_repeated(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "moccasin.toml").write_text("[project]\n")
+            pypi = root / "lib" / "pypi"
+            pypi.mkdir(parents=True)
+            source = root / "src" / "stable.vy"
+            source.parent.mkdir()
+            source.write_text("")
+            argv = server.compile_argv(source, root, ["vyper", "-p", str(pypi)], "0.4.3")
+        self.assertEqual(argv.count(str(pypi)), 1)
+
+    def test_plain_project_does_not_add_moccasin_paths(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "token.vy"
+            source.write_text("")
+            argv = server.compile_argv(source, root, ["vyper"], "0.4.3")
+        self.assertNotIn("lib/pypi", " ".join(argv))
+
     def test_missing_compiler_is_a_diagnostic(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "Token.vy"
