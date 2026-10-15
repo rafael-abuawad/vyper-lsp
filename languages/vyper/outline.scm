@@ -30,9 +30,10 @@
   "error" @context
   name: (identifier) @name) @item
 
-(module
+((module
   (assignment
-    left: (identifier) @name)) @item
+    left: (identifier) @name) @item)
+  (#not-any-of? @name "implements" "initializes" "exports" "uses"))
 
 (import_statement
   "import" @context
